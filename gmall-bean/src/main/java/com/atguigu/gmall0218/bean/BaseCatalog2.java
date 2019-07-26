@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author qiyu
  * @create 2019-07-24 12:22
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:二级分类表
  */
 @Data
 public class BaseCatalog2 implements Serializable {

@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author qiyu
  * @create 2019-07-23 16:27
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:用户地址表
  */
 @Data
 public class UserAddress implements Serializable {

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author qiyu
  * @create 2019-07-24 12:24
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:平台属性表
  */
 @Data
 public class BaseAttrInfo implements Serializable{
@@ -23,6 +23,9 @@ public class BaseAttrInfo implements Serializable{
     @Column
     private String catalog3Id;
 
+    //平台属性值
     @Transient//数据库表中没有。但是对应的实体类中可以有下面的属性
     private List<BaseAttrValue> attrValueList;
+
+
 }

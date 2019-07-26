@@ -8,16 +8,16 @@ import java.io.Serializable;
 
 /**
  * @author qiyu
- * @create 2019-07-24 12:24
- * @Description:平台属性值表
+ * @create 2019-07-26 15:42
+ * @Description:销售属性字典表
  */
 @Data
-public class BaseAttrValue implements Serializable {
+public class BaseSaleAttr implements Serializable {
     @Id
     @Column
-    private String id;
+    String id ;
+
     @Column
-    private String valueName;
-    @Column
-    private String attrId;
+    String name;
+
 }

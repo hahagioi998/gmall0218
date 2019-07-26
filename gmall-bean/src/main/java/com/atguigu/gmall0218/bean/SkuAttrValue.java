@@ -8,16 +8,21 @@ import java.io.Serializable;
 
 /**
  * @author qiyu
- * @create 2019-07-24 12:24
- * @Description:平台属性值表
+ * @create 2019-07-26 20:14
+ * @Description:sku平台属性值关联表
  */
 @Data
-public class BaseAttrValue implements Serializable {
+public class SkuAttrValue implements Serializable {
     @Id
     @Column
-    private String id;
+    String id;
+
     @Column
-    private String valueName;
+    String attrId;
+
     @Column
-    private String attrId;
+    String valueId;
+
+    @Column
+    String skuId;
 }

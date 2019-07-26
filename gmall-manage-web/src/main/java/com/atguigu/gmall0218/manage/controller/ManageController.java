@@ -3,10 +3,7 @@ package com.atguigu.gmall0218.manage.controller;
 import com.atguigu.gmall0218.bean.*;
 import com.atguigu.gmall0218.service.ManageService;
 import jdk.nashorn.internal.ir.annotations.Reference;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,20 +38,57 @@ public class ManageController {
         return manageService.getAttrList(catalog3Id);
     }
 
+    /**
+     * 添加或者修改平台属性
+     * @param baseAttrInfo
+     */
     @RequestMapping("saveAttrInfo")
     public void saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
-        System.out.println("*****************************");
-        // 调用服务层做保存方法
+
+        // 调用服务层做保存或修改方法
          manageService.saveAttrInfo(baseAttrInfo);
     }
 
-
+    /**
+     * 查询平台属性值
+     * @param attrId
+     * @return
+     */
     @RequestMapping("getAttrValueList")
     public  List<BaseAttrValue> getAttrValueList(String attrId){
         // 先通过attrId 查询平台属性 select * from baseAttrInfo where id = attrId
         BaseAttrInfo baseAttrInfo =  manageService.getAttrInfo(attrId);
         // 返回平台属性中的平台属性值集合baseAttrInfo.getAttrValueList();
         return baseAttrInfo.getAttrValueList();
+
+    }
+
+    /**
+     * 查询基本销售属性
+     * @return
+     */
+    @RequestMapping("baseSaleAttrList")
+    public List<BaseSaleAttr> baseSaleAttrList(){
+        return manageService.getBaseSaleAttrList();
+    }
+
+    /**
+     * 查询所有的销售属性
+     * @param spuId
+     * @return
+     */
+    @RequestMapping("spuSaleAttrList")
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId){
+        System.out.println("*************spuId"+spuId);
+        return manageService.getSpuSaleAttrList(spuId);
+    }
+
+    /**
+     * 添加商品的sku
+     */
+    @RequestMapping("saveSkuInfo")
+    public void  saveSkuInfo(@RequestBody  SkuInfo skuInfo){
+        manageService.saveSkuInfo(skuInfo);
     }
 
 }
