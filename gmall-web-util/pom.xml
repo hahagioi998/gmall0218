@@ -36,5 +36,12 @@
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-ext</artifactId>
         </dependency>
+
+        <!-- 单点登录中使用的技术jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 </project>

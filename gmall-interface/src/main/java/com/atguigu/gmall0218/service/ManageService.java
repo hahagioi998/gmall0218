@@ -25,8 +25,7 @@ public interface ManageService {
     //添加平台属性
     void saveSpuInfo(SpuInfo spuInfo);
 
-    //根据spuId查询它的所属图片集合
-    List<SpuImage> getSpuImageList(String spuId);
+
     //销售属性
     List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
 
@@ -35,4 +34,13 @@ public interface ManageService {
      * @param skuInfo
      */
     void saveSkuInfo(SkuInfo skuInfo);
+
+    List<SpuImage> getSpuImageList(SpuImage spuImage);
+
+    /**
+     * 查询平台属性集合
+     * @param attrValueIdList
+     * @return
+     */
+    List<BaseAttrInfo> getAttrList(List<String> attrValueIdList);
 }

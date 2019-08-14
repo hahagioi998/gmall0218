@@ -23,4 +23,14 @@
         WHERE
         catalog3_id = #{0}
     </select>
+
+    <!--List<BaseAttrInfo> selectAttrInfoListByIds(String attrValueIds);-->
+    <select id="selectAttrInfoListByIds" resultMap="baseAttrInfoMap">
+        select ai.id,ai.attr_name,ai.catalog3_id, av.id attr_value_id ,av.attr_id ,av.value_name
+        from base_attr_info ai
+        INNER JOIN base_attr_value av
+        ON ai.id = av.attr_id
+        WHERE av.id IN (${attrValueIds});
+    </select>
+
 </mapper>

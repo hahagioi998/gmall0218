@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.atguigu.gmall0218.bean.*;
 import com.atguigu.gmall0218.manage.mapper.*;
 import com.atguigu.gmall0218.service.ManageService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * @author qiyu
  * @create 2019-07-24 12:33
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:
  */
 @Service
 public class ManageServiceImpl implements ManageService {
@@ -87,7 +88,7 @@ public class ManageServiceImpl implements ManageService {
 //        BaseAttrInfo baseAttrInfo = new BaseAttrInfo();
 //        baseAttrInfo.setCatalog3Id(catalog3Id);
 //        return baseAttrInfoMapper.select(baseAttrInfo);
-        System.out.println(catalog3Id);
+      //  System.out.println(catalog3Id);
 
 
         return baseAttrInfoMapper.getBaseAttrInfoListByCatalog3Id(Long.parseLong(catalog3Id));
@@ -165,19 +166,20 @@ public class ManageServiceImpl implements ManageService {
 
     //添加平台属性
     @Override
+    @Transactional
     public void saveSpuInfo(SpuInfo spuInfo) {
-        if(spuInfo.getId() == null || spuInfo.getId().length()==0){
+       // if(spuInfo.getId() == null || spuInfo.getId().length()==0){
             //添加平台属性
             spuInfoMapper.insertSelective(spuInfo);
-        }else {
-            spuInfoMapper.updateByPrimaryKeySelective(spuInfo);
-        }
+        //}else {
+         //   spuInfoMapper.updateByPrimaryKeySelective(spuInfo);
+        //}
 
 
         //添加图片
-        SpuImage spuImage1 = new SpuImage();
-        spuImage1.setSpuId(spuInfo.getId());
-        spuImageMapper.delete(spuImage1);
+//        SpuImage spuImage1 = new SpuImage();
+//        spuImage1.setSpuId(spuInfo.getId());
+//        spuImageMapper.delete(spuImage1);
 
         List<SpuImage> spuImageList = spuInfo.getSpuImageList();
         if(spuImageList != null && spuImageList.size()>0){
@@ -189,14 +191,14 @@ public class ManageServiceImpl implements ManageService {
         }
 
         //销售属性删除
-        SpuSaleAttr spuSaleAttr1 = new SpuSaleAttr();
-        spuSaleAttr1.setSpuId(spuInfo.getId());
-        spuSaleAttrMapper.delete(spuSaleAttr1);
+//        SpuSaleAttr spuSaleAttr1 = new SpuSaleAttr();
+//        spuSaleAttr1.setSpuId(spuInfo.getId());
+//        spuSaleAttrMapper.delete(spuSaleAttr1);
 
         //销售属性值删除
-        SpuSaleAttrValue spuSaleAttrValue1 = new SpuSaleAttrValue();
-        spuSaleAttrValue1.setSpuId(spuInfo.getId());
-        spuSaleAttrValueMapper.delete(spuSaleAttrValue1);
+//        SpuSaleAttrValue spuSaleAttrValue1 = new SpuSaleAttrValue();
+//        spuSaleAttrValue1.setSpuId(spuInfo.getId());
+//        spuSaleAttrValueMapper.delete(spuSaleAttrValue1);
 
 
 
@@ -205,7 +207,7 @@ public class ManageServiceImpl implements ManageService {
         if(spuImageList != null && spuImageList.size()>0){
             for (SpuSaleAttr spuSaleAttr : spuSaleAttrList) {
                 spuSaleAttr.setSpuId(spuInfo.getId());
-                spuSaleAttrMapper.insert(spuSaleAttr);
+                spuSaleAttrMapper.insertSelective(spuSaleAttr);
 
                 List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
 
@@ -225,14 +227,27 @@ public class ManageServiceImpl implements ManageService {
 
     /**
      * 根据spuId查询所属的所有图片
-     * @param spuId
+     * @param
      * @return
      */
     @Override
-    public List<SpuImage> getSpuImageList(String spuId) {
-        SpuImage spuImage = new SpuImage();
-        spuImage.setSpuId(spuId);
+    public List<SpuImage> getSpuImageList(SpuImage spuImage) {
+
         return spuImageMapper.select(spuImage);
+    }
+
+    /**
+     * 查询平台属性集合
+     * @param attrValueIdList
+     * @return
+     */
+    @Override
+    public List<BaseAttrInfo> getAttrList(List<String> attrValueIdList) {
+
+        String attrValueIds  = StringUtils.join(attrValueIdList.toArray(), ",");
+        List<BaseAttrInfo> baseAttrInfoList  = baseAttrInfoMapper.selectAttrInfoListByIds(attrValueIds);
+
+        return baseAttrInfoList;
     }
 
     /**
@@ -251,30 +266,25 @@ public class ManageServiceImpl implements ManageService {
      * 添加商品sku
      * @param skuInfo
      */
+    @Transactional
     @Override
     public void saveSkuInfo(SkuInfo skuInfo) {
         //根据id开判断是添加还是修改
-        if(skuInfo.getId() == null || skuInfo.getId().length() == 0){
-            // 设置id 为自增
-            skuInfo.setId(null);
+     //   if(skuInfo.getId() == null || skuInfo.getId().length() == 0){
             skuInfoMapper.insertSelective(skuInfo);
-        }else{
+       // }else{
             //修改
-            skuInfoMapper.updateByPrimaryKeySelective(skuInfo);
-        }
+        //    skuInfoMapper.updateByPrimaryKeySelective(skuInfo);
+        //}
 
         //先删除再添加图片
-        SkuImage skuImage = new SkuImage();
-        skuImage.setSkuId(skuInfo.getId());
-        skuImageMapper.delete(skuImage);
+//        SkuImage skuImage = new SkuImage();
+//        skuImage.setSkuId(skuInfo.getId());
+//        skuImageMapper.delete(skuImage);
 
         List<SkuImage> skuImageList = skuInfo.getSkuImageList();
         if(skuImageList != null && skuImageList.size()>0){
             for (SkuImage image : skuImageList) {
-                 /* "" 区别 null*/
-                 if(image.getId() != null && image.getId().length() ==0 ){
-                     image.setId(null);
-                 }
                 // skuId 必须赋值
                 image.setSkuId(skuInfo.getId());
                 skuImageMapper.insertSelective(image);
@@ -282,16 +292,13 @@ public class ManageServiceImpl implements ManageService {
         }
 
         //添加sku平台属性关联表
-        SkuAttrValue skuAttrValue = new SkuAttrValue();
-        skuAttrValue.setSkuId(skuInfo.getId());
-        skuAttrValueMapper.delete(skuAttrValue);
+//        SkuAttrValue skuAttrValue = new SkuAttrValue();
+//        skuAttrValue.setSkuId(skuInfo.getId());
+//        skuAttrValueMapper.delete(skuAttrValue);
 
         List<SkuAttrValue> skuAttrValueList = skuInfo.getSkuAttrValueList();
         if(skuAttrValueList !=null && skuAttrValueList.size() >0){
             for (SkuAttrValue attrValue : skuAttrValueList) {
-                if(attrValue.getId()!= null && attrValue.getId().length()==0){
-                    attrValue.setId(null);
-                }
                 // skuId
                 attrValue.setSkuId(skuInfo.getId());
                 skuAttrValueMapper.insertSelective(attrValue);
@@ -299,17 +306,13 @@ public class ManageServiceImpl implements ManageService {
         }
 
         //添加销售属性值
-        SkuSaleAttrValue skuSaleAttrValue = new SkuSaleAttrValue();
-        skuSaleAttrValue.setSkuId(skuInfo.getId());
-        skuSaleAttrValueMapper.delete(skuSaleAttrValue);
+//        SkuSaleAttrValue skuSaleAttrValue = new SkuSaleAttrValue();
+//        skuSaleAttrValue.setSkuId(skuInfo.getId());
+//        skuSaleAttrValueMapper.delete(skuSaleAttrValue);
 
         List<SkuSaleAttrValue> skuSaleAttrValueList = skuInfo.getSkuSaleAttrValueList();
         if(skuSaleAttrValueList != null && skuSaleAttrValueList.size()>0){
             for (SkuSaleAttrValue saleAttrValue : skuSaleAttrValueList) {
-
-                if(saleAttrValue.getId() != null && saleAttrValue.getId().length() == 0){
-                    saleAttrValue.setId(null);
-                }
 
                 // skuId
                 saleAttrValue.setSkuId(skuInfo.getId());

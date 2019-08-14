@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @author qiyu
@@ -13,7 +14,7 @@ import javax.persistence.Id;
  * @Description:用户表
  */
 @Data
-public class UserInfo {
+public class UserInfo implements Serializable {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)

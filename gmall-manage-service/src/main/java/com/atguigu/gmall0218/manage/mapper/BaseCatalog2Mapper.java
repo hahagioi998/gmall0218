@@ -7,7 +7,7 @@ import tk.mybatis.mapper.common.Mapper;
 /**
  * @author qiyu
  * @create 2019-07-24 12:26
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:
  */
 public interface BaseCatalog2Mapper extends Mapper<BaseCatalog2> {
 }

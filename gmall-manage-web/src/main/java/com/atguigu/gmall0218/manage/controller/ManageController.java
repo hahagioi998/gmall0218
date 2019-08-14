@@ -1,8 +1,11 @@
 package com.atguigu.gmall0218.manage.controller;
 
 import com.atguigu.gmall0218.bean.*;
+import com.atguigu.gmall0218.service.ItemManageService;
+import com.atguigu.gmall0218.service.ListService;
 import com.atguigu.gmall0218.service.ManageService;
 import jdk.nashorn.internal.ir.annotations.Reference;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * @author qiyu
  * @create 2019-07-24 12:38
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:
  */
 @RestController
 @CrossOrigin
@@ -18,6 +21,11 @@ public class ManageController {
     @com.alibaba.dubbo.config.annotation.Reference
     private ManageService manageService;
 
+    @com.alibaba.dubbo.config.annotation.Reference
+    private ItemManageService itemManageService;
+
+    @com.alibaba.dubbo.config.annotation.Reference
+    private ListService listService;
 
     @RequestMapping("getCatalog1")
     public List<BaseCatalog1> getCatalog1(){
@@ -90,6 +98,21 @@ public class ManageController {
     public void  saveSkuInfo(@RequestBody  SkuInfo skuInfo){
         manageService.saveSkuInfo(skuInfo);
     }
+
+
+    /**
+     * 上架商品到es中
+     * @param skuId
+     */
+    @RequestMapping("onSale")
+    public void onSale(String skuId){
+        SkuInfo skuInfo = itemManageService.getSkuInfo(skuId);
+        SkuLsInfo skuLsInfo = new SkuLsInfo();
+
+        BeanUtils.copyProperties(skuInfo,skuLsInfo);
+        listService.saveSkuInfo(skuLsInfo);
+    }
+
 
 }
 

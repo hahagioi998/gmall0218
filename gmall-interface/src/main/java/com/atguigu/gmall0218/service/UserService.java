@@ -19,4 +19,17 @@ public interface UserService {
      */
     List<UserAddress> getUserAddressList(String userId);
 
+    /**
+     * 用户登录校验
+     * @param userInfo
+     * @return
+     */
+    UserInfo login(UserInfo userInfo);
+
+    /**
+     *区redis中查询用户是否登录
+     * @param userId
+     * @return
+     */
+    UserInfo verify(String userId);
 }

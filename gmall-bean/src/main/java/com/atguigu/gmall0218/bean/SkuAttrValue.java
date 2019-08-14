@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author qiyu
  * @create 2019-07-26 20:14
- * @Description:sku平台属性值关联表
+ * @Description:sku平台属性关联表
  */
 @Data
 public class SkuAttrValue implements Serializable {

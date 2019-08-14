@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @author qiyu
  * @create 2019-07-26 15:15
- * @Description:TODO(这里用一句话来描述这个类的作用)
+ * @Description:
  */
 @RestController
 @CrossOrigin
@@ -26,25 +26,38 @@ public class FileUploadController {
 
     @RequestMapping(value = "fileUpload",method = RequestMethod.POST)
     public String fileUpload(@RequestParam("file") MultipartFile file) throws IOException, MyException {
-        String imgUrl = fileUrl;
-        if(file != null){
-            System.out.println("multipartFile = " + file.getName()+"|"+file.getSize());
-            String configFile = this.getClass().getResource("/tracker.conf").getFile();
+
+        String imgUrl = fileUrl; // imgUrl=http://192.168.67.219
+        // 当文件不为空的时候，进行上传！
+        if (file!=null){
+            String configFile  = this.getClass().getResource("/tracker.conf").getFile();
             ClientGlobal.init(configFile);
             TrackerClient trackerClient=new TrackerClient();
+            // 获取连接
             TrackerServer trackerServer=trackerClient.getConnection();
             StorageClient storageClient=new StorageClient(trackerServer,null);
-            String filename= file.getOriginalFilename();
-            String extName = StringUtils.substringAfterLast(filename, ".");
+            // 获取上传文件名称
+            String originalFilename = file.getOriginalFilename();
+            // 获取文件的后缀名
+            String extName  = StringUtils.substringAfterLast(originalFilename, ".");
+            // String orginalFilename="d://img//zly.jpg";
 
+            // String[] upload_file = storageClient.upload_file(originalFilename, extName, null); 获取本地文件
+            // 上传图片
             String[] upload_file = storageClient.upload_file(file.getBytes(), extName, null);
-            imgUrl=fileUrl ;
             for (int i = 0; i < upload_file.length; i++) {
                 String path = upload_file[i];
+                /*
+                s = group1
+                s = M00/00/00/wKhD2106tuSAY9S9AACGx2c4tJ4084.jpg
+                 */
+//                imgUrl=http://192.168.67.219/group1/M00/00/00/wKhD2106tuSAY9S9AACGx2c4tJ4084.jpg
                 imgUrl+="/"+path;
             }
         }
 
+        System.out.println("***********************imgUrl"+imgUrl);
+        //  return "http://192.168.67.219/group1/M00/00/00/wKhD2106tuSAY9S9AACGx2c4tJ4084.jpg";
         return imgUrl;
     }
 
